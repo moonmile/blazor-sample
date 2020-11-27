@@ -1,0 +1,23 @@
+﻿@page "/code"
+
+<h3>コードブロックの書き方</h3>
+
+<div>
+    Razor による書き方
+    @{
+        void Hello(string name)
+        {
+            <p>Hello Blazor world for @name</p>
+        }
+        Hello("masuda");
+    }
+</div>
+
+<div>
+    Blazor による書き方
+    <p>Hello Blazor world for @Name</p>
+</div>
+@code {
+    private string Name = "tomoaki";
+}
+

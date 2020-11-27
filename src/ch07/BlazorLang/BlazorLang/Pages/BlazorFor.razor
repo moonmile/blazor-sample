@@ -1,0 +1,27 @@
+﻿@page "/for"
+<h3>繰り返し文の利用</h3>
+
+<table class="table">
+    @foreach ( var it in books )
+    {
+    <tr>
+        <td>@it.Title -- 著 @it.Author</td>
+        <td>@it.Price 円</td>
+        <td>出版社 @it.Publisher</td>
+    </tr>
+    }
+</table>
+
+@code {
+    private List<Book> books;
+
+    protected override void OnInitialized()
+    {
+        books = new List<Book>();
+        books.Add(new Book() { Title = "Blazor入門", Author = "増田智明", Price = 2000, Publisher = "日経BP" });
+        books.Add(new Book() { Title = "Azure Functions入門", Author = "増田智明", Price = 2000, Publisher = "日経BP" });
+        books.Add(new Book() { Title = "Xamarin入門", Author = "増田智明", Price = 2000, Publisher = "日経BP" });
+        books.Add(new Book() { Title = "ピープルウェア", Author = "トム・デマルコ", Price = 2000, Publisher = "日経BP" });
+        books.Add(new Book() { Title = "知識創造企業", Author = "野中郁次郎", Price = 2000, Publisher = "東洋経済" });
+    }
+}

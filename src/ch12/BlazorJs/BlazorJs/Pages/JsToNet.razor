@@ -1,0 +1,26 @@
+﻿@page   "/jstonet"
+<h3>Javascriptから.NETコードを呼び出す</h3>
+
+<div>
+    <div class="form-group">
+        <label for="title">タイトル</label>
+        <input type="text" id="title" class="form-control" />
+    </div>
+    <button class="btn btn-primary" onclick="jsFunctions.commitTitle()">登録</button>
+</div>
+
+<div style="margin-top:20px">
+    <span id="msg"></span>
+</div>
+
+
+@code {
+    private string message { get; set; }
+
+    [JSInvokable]
+    public static void commitTitleNet( string title )
+    {
+        Console.WriteLine(title);
+        return;
+    }
+}

@@ -1,0 +1,18 @@
+﻿@page "/var"
+
+<h3>変数の表示</h3>
+
+<div>
+    名前は @name です。 
+</div>
+<div>
+    年齢は @age 歳です。
+</div>
+<div>
+    今日は @DateTime.Today です。
+</div>
+
+@code {
+    private string name = "masuda tomoaki";
+    private int age = 52;
+}

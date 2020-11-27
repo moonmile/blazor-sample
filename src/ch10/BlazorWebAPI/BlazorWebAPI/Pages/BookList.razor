@@ -1,0 +1,128 @@
+﻿@page "/booklist"
+@using BookWeb.Models;
+@inject IJSRuntime JSRuntime ;
+@inject HttpClient Http
+
+<h3>BookList</h3>
+<button class="btn btn-primary" @onclick="onSearch">再検索</button>
+<table class="table">
+    <thead>
+        <tr>
+            <td>タイトル</td>
+            <td>著者名</td>
+            <td>価格</td>
+            <td>出版社</td>
+        </tr>
+    </thead>
+    @foreach (var it in books)
+    {
+        <tr @onclick="e => onSelected(it)" style="@(it == book ? "background:orange" : "")">
+            <td>@it.Title</td>
+            <td>@it.Author</td>
+            <td>@it.Price</td>
+            <td>@it.Publisher</td>
+        </tr>
+    }
+</table>
+<div>
+    <div style="margin-top:20px; margin-bottom:20px;">
+        <button class="btn btn-primary" @onclick="onCreate">新規作成</button>
+    </div>
+
+    <div class="form-group">
+        <label for="title">タイトル</label>
+        <input type="text" id="title" @bind="book.Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="author">著者名</label>
+        <input type="text" id="author" @bind="book.Author" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="price">価格</label>
+        <input type="number" id="price" @bind="book.Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="publisher">出版社名</label>
+        <input type="text" id="publisher" @bind="book.Publisher" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary" @onclick="onUpdate">更新</button>
+    <button class="btn btn-secondary" @onclick="onDelete">削除</button>
+    <div style="margin-top:20px">
+        @Message
+    </div>
+</div>
+
+
+
+@code {
+
+    private List<Books> books { get; set; } = new List<Books>();
+    private Books book { get; set; } = new Books();
+    private string Message { get; set; }
+
+    protected override void OnInitialized()
+    {
+        onSearch();
+    }
+
+    /// <summary>
+    /// 検索
+    /// </summary>
+    private async void onSearch()
+    {
+        var items = await Http.GetFromJsonAsync<List<Books>>("http://localhost:5000/api/books/");
+        this.books = items;
+        this.StateHasChanged();
+    }
+
+    /// <summary>
+    /// 新規作成
+    /// </summary>
+    private void onCreate()
+    {
+        this.book = new Books();
+    }
+    /// <summary>
+    /// データ更新
+    /// </summary>
+    private async void onUpdate()
+    {
+        if (this.book.Id == 0)
+        {
+            // 新規作成
+            var res = await Http.PostAsJsonAsync("http://localhost:5000/api/books/", book);
+            this.book = await res.Content.ReadFromJsonAsync<Books>();
+        }
+        else
+        {
+            // 更新処理
+            var res = await Http.PutAsJsonAsync($"http://localhost:5000/api/books/{book.Id}", book);
+        }
+        // リストを更新
+        onSearch();
+        Message = "更新しました";
+    }
+    /// <summary>
+    /// データ削除
+    /// </summary>
+    private async void onDelete()
+    {
+        if (this.book.Id == 0) return;
+
+        if (await JSRuntime.InvokeAsync<int>(
+            "jsFunctions.confirmOkCancel", "削除してもよろしいですか？") == 0) return;
+
+        var res = await Http.DeleteAsync($"http://localhost:5000/api/books/{book.Id}");
+        onSearch();
+        Message = "削除しました";
+    }
+    /// <summary>
+    /// 書籍を選択する
+    /// </summary>
+    /// <param name="b"></param>
+    private void onSelected(Books b)
+    {
+        this.book = b;
+    }
+}

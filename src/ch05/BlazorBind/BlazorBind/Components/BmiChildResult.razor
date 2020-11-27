@@ -1,0 +1,35 @@
+﻿<div style="background-color:orange">
+    <h2>親に伝達する子コンポーネント</h2>
+    <div>
+        Height: @Height cm, Weigth: @Weight kg.
+    </div>
+    <div>
+        BMI is @Result .
+    </div>
+
+    <button class="btn btn-primary" @onclick="clickCalc">計算する</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public double Weight { get; set; }
+    [Parameter]
+    public EventCallback<double> WeightChanged { get; set; }
+    public double Height { get; set; } = 160.0;
+    [Parameter]
+    public double Result { get; set; }
+    [Parameter]
+    public EventCallback<double> ResultChanged { get; set; }
+
+    /// <summary>
+    /// 計算するボタンをクリックして、親へ通知する
+    /// </summary>
+    /// <returns></returns>
+    private async void clickCalc()
+    {
+        Result = Weight / ((Height / 100) * (Height / 100));
+        await ResultChanged.InvokeAsync(Result);
+    }
+
+}

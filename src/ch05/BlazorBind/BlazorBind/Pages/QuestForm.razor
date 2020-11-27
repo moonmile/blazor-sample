@@ -1,0 +1,184 @@
+﻿@page "/quest"
+<h3>質問フォーム</h3>
+
+<div class="form-group">
+    <label for="zipcode">郵便番号</label>
+    <input @bind="zipCode" class="form-control" />
+</div>
+
+
+<div class="form-group">
+    <label for="prefecture">都道府県</label>
+    <select @bind="prefecture" class="form-control">
+        @foreach ( var it in prefectures)
+        {
+           <option>@it</option>
+        }
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="telephone">電話番号</label>
+    <input @bind="telephone" class="form-control" />
+</div>
+<div class="form-group">
+    <label for="name">名前</label>
+    <input @bind="name" class="form-control" />
+</div>
+<div class="form-group">
+    <label for="age">年齢</label>
+    <input type="number" @bind="age" class="form-control" />
+</div>
+<div class="form-group">
+    <div>好きなプログラム言語</div>
+    <div class="form-check form-check-inline">
+        <input type="checkbox" @bind="likeCSharp" class="form-check-input" />
+        <label class="form-check-label" for="likecsharp">C#</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input type="checkbox" @bind="likeVB" class="form-check-input" />
+        <label class="form-check-label" for="likevb">VB</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input type="checkbox" @bind="likeFSharp" class="form-check-input" />
+        <label class="form-check-label" for="likefsharp">F#</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input type="checkbox" @bind="likeRust" class="form-check-input" />
+        <label class="form-check-label" for="likerust">Rust</label>
+    </div>
+</div>
+
+<button class="btn btn-primary" @onclick="onSubmit">登録</button>
+<div style="margin-top:20px">
+    @Message
+</div>
+
+@code {
+
+    private string zipCode { get; set; }
+    private string prefecture { get; set; }
+    private string telephone { get; set; }
+    private string name { get; set; }
+    private int age { get; set; }
+    private bool likeCSharp { get; set; }
+    private bool likeVB { get; set; }
+    private bool likeFSharp { get; set; }
+    private bool likeRust { get; set; }
+    private string Message { get; set; }
+
+    private int prefectureId { get; set; }
+    private string prefectureName => prefectureList.FirstOrDefault(t => t.ID == this.prefectureId)?.Name;
+
+    public void onSubmit()
+    {
+        this.Message = $"{name} さん、登録をありがとうございました.";
+    }
+
+
+    private string[] prefectures = new string[] {
+        "北海道",
+        "青森県",
+        "岩手県",
+        "宮城県",
+        "秋田県",
+        "山形県",
+        "福島県",
+        "茨城県",
+        "栃木県",
+        "群馬県",
+        "埼玉県",
+        "千葉県",
+        "東京都",
+        "神奈川県",
+        "新潟県",
+        "富山県",
+        "石川県",
+        "福井県",
+        "山梨県",
+        "長野県",
+        "岐阜県",
+        "静岡県",
+        "愛知県",
+        "三重県",
+        "滋賀県",
+        "京都府",
+        "大阪府",
+        "兵庫県",
+        "奈良県",
+        "和歌山県",
+        "鳥取県",
+        "島根県",
+        "岡山県",
+        "広島県",
+        "山口県",
+        "徳島県",
+        "香川県",
+        "愛媛県",
+        "高知県",
+        "福岡県",
+        "佐賀県",
+        "長崎県",
+        "熊本県",
+        "大分県",
+        "宮崎県",
+        "鹿児島県",
+        "沖縄県",
+    };
+
+    private class PrefectureItem
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+    private List<PrefectureItem> prefectureList = new List<PrefectureItem>()
+    {
+        new PrefectureItem() { ID = 1, Name="北海道" },
+        new PrefectureItem() { ID = 2, Name="青森県" },
+        new PrefectureItem() { ID = 3, Name="岩手県" },
+        new PrefectureItem() { ID = 4, Name="宮城県" },
+        new PrefectureItem() { ID = 5, Name="秋田県" },
+        new PrefectureItem() { ID = 6, Name="山形県" },
+        new PrefectureItem() { ID = 7, Name="福島県" },
+        new PrefectureItem() { ID = 8, Name="茨城県" },
+        new PrefectureItem() { ID = 9, Name="栃木県" },
+        new PrefectureItem() { ID = 10, Name="群馬県" },
+        new PrefectureItem() { ID = 11, Name="埼玉県" },
+        new PrefectureItem() { ID = 12, Name="千葉県" },
+        new PrefectureItem() { ID = 13, Name="東京都" },
+        new PrefectureItem() { ID = 14, Name="神奈川県" },
+        new PrefectureItem() { ID = 15, Name="新潟県" },
+        new PrefectureItem() { ID = 16, Name="富山県" },
+        new PrefectureItem() { ID = 17, Name="石川県" },
+        new PrefectureItem() { ID = 18, Name="福井県" },
+        new PrefectureItem() { ID = 19, Name="山梨県" },
+        new PrefectureItem() { ID = 20, Name="長野県" },
+        new PrefectureItem() { ID = 21, Name="岐阜県" },
+        new PrefectureItem() { ID = 22, Name="静岡県" },
+        new PrefectureItem() { ID = 23, Name="愛知県" },
+        new PrefectureItem() { ID = 24, Name="三重県" },
+        new PrefectureItem() { ID = 25, Name="滋賀県" },
+        new PrefectureItem() { ID = 26, Name="京都府" },
+        new PrefectureItem() { ID = 27, Name="大阪府" },
+        new PrefectureItem() { ID = 28, Name="兵庫県" },
+        new PrefectureItem() { ID = 29, Name="奈良県" },
+        new PrefectureItem() { ID = 30, Name="和歌山県" },
+        new PrefectureItem() { ID = 31, Name="鳥取県" },
+        new PrefectureItem() { ID = 32, Name="島根県" },
+        new PrefectureItem() { ID = 33, Name="岡山県" },
+        new PrefectureItem() { ID = 34, Name="広島県" },
+        new PrefectureItem() { ID = 35, Name="山口県" },
+        new PrefectureItem() { ID = 36, Name="徳島県" },
+        new PrefectureItem() { ID = 37, Name="香川県" },
+        new PrefectureItem() { ID = 38, Name="愛媛県" },
+        new PrefectureItem() { ID = 39, Name="高知県" },
+        new PrefectureItem() { ID = 40, Name="福岡県" },
+        new PrefectureItem() { ID = 41, Name="佐賀県" },
+        new PrefectureItem() { ID = 42, Name="長崎県" },
+        new PrefectureItem() { ID = 43, Name="熊本県" },
+        new PrefectureItem() { ID = 44, Name="大分県" },
+        new PrefectureItem() { ID = 45, Name="宮崎県" },
+        new PrefectureItem() { ID = 46, Name="鹿児島県" },
+        new PrefectureItem() { ID = 47, Name="沖縄県" },
+    };
+}

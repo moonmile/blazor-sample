@@ -1,0 +1,17 @@
+﻿@page "/if"
+
+<h3>制御文による分岐</h3>
+
+@if (DEBUG)
+{
+    <p style="color:red">ここの文章はデバッグのときのみ表示されます。</p>
+} 
+<p>
+    今日から Blazor の授業を始めます。最初に制御文を使ってみましょう。
+</p>
+
+
+
+@code {
+    private bool DEBUG = true;
+}

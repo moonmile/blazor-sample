@@ -1,0 +1,112 @@
+﻿<table class="table">
+    <tr>
+        <td>郵便番号</td>
+        <td><input type="text" @bind="zipCode" class="form-control" /></td>
+    </tr>
+    <tr>
+        <td>都道府県</td>
+        <td>
+            <select @bind="prefecture" class="form-control">
+                @foreach (var it in prefectures)
+                {
+                    <option>@it</option>
+                }
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>電話番号</td>
+        <td><input type="text" @bind="telephone" class="form-control" /></td>
+    </tr>
+    <tr>
+        <td>名前</td>
+        <td><input type="text" @bind="name" class="form-control" /></td>
+    </tr>
+    <tr>
+        <td>年齢</td>
+        <td><input type="number" @bind="age" class="form-control" /></td>
+    </tr>
+</table>
+
+<div style="margin-top:20px">
+    <button class="btn btn-primary" @onclick="onCommit">登録</button>
+</div>
+
+@code {
+
+    private string zipCode { get; set; }
+    private string prefecture { get; set; }
+    private string telephone { get; set; }
+    private string name { get; set; }
+    private int age { get; set; }
+
+    private string Message { get; set; }
+
+    [Parameter]
+    public EventCallback<BlazorAddress.AddressItem> OnCommit { get; set; }
+
+
+    public void onCommit()
+    {
+        var addr = new BlazorAddress.AddressItem()
+        {
+            ZipCode = zipCode,
+            Prefecture = prefecture,
+            Telephone = telephone,
+            Name = name,
+            Age = age,
+        };
+        OnCommit.InvokeAsync(addr);
+    }
+
+
+    private string[] prefectures = new string[] {
+        "北海道",
+        "青森県",
+        "岩手県",
+        "宮城県",
+        "秋田県",
+        "山形県",
+        "福島県",
+        "茨城県",
+        "栃木県",
+        "群馬県",
+        "埼玉県",
+        "千葉県",
+        "東京都",
+        "神奈川県",
+        "新潟県",
+        "富山県",
+        "石川県",
+        "福井県",
+        "山梨県",
+        "長野県",
+        "岐阜県",
+        "静岡県",
+        "愛知県",
+        "三重県",
+        "滋賀県",
+        "京都府",
+        "大阪府",
+        "兵庫県",
+        "奈良県",
+        "和歌山県",
+        "鳥取県",
+        "島根県",
+        "岡山県",
+        "広島県",
+        "山口県",
+        "徳島県",
+        "香川県",
+        "愛媛県",
+        "高知県",
+        "福岡県",
+        "佐賀県",
+        "長崎県",
+        "熊本県",
+        "大分県",
+        "宮崎県",
+        "鹿児島県",
+        "沖縄県",
+    };
+}

@@ -1,0 +1,15 @@
+﻿<tr>
+    <td>@Item.Name</td>
+    <td>@Item.Height</td>
+    <td>@Item.Height</td>
+    <td>@Item.Bmi.ToString("00.0")</td>
+</tr>
+
+@code {
+    // パラメータで表示する要素を受ける
+    [Parameter]
+    public BmiItem Item { get; set; }
+    // ChildContnet は固定
+    [Parameter]
+    public RenderFragment ChildContnet { get; set; }
+}

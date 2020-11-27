@@ -1,0 +1,50 @@
+﻿@page   "/jsdialog"
+@inject IJSRuntime JSRuntime ;
+
+<h3>.NETからJavaScriptのダイアログを表示</h3>
+
+<div>
+    <div class="form-group">
+        <label for="message">メッセージ</label>
+        <input type="text" id="message" @bind="message" class="form-control" />
+    </div>
+    <button class="btn btn-primary" style="margin: 20px"
+            @onclick="onAlert">
+        メッセージを表示
+    </button>
+
+    <button class="btn btn-primary" style="margin: 20px"
+            @onclick="onConfirm">
+        確認ダイアログを表示
+    </button>
+</div>
+<div>
+    @result
+</div>
+
+
+@code {
+    private string message = "";
+    public string result = "";
+    // メッセージダイアログを表示
+    private async void onAlert()
+    {
+        await JSRuntime.InvokeVoidAsync(
+                "jsFunctions.alert", message);
+    }
+    // 確認メッセージダイアログを表示
+    private async void onConfirm()
+    {
+        var ret = await JSRuntime.InvokeAsync<int>(
+                "jsFunctions.confirm", message);
+        if (ret == 0)
+        {
+            result = "キャンセルを押しました";
+        }
+        else
+        {
+            result = "OKを押しました";
+        }
+        this.StateHasChanged();
+    }
+}

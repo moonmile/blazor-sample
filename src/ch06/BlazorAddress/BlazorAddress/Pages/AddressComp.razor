@@ -1,0 +1,16 @@
+﻿@page "/addresscomp"
+
+<h3>住所登録（コンポーネント）</h3>
+<BlazorAddress.Components.AddressInput OnCommit="onCommit" />
+
+<div>
+    @Message
+</div>
+
+@code {
+    public string Message { get; set; } = "";
+    private void onCommit(AddressItem addr)
+    {
+        Message = $"{addr.Name} さん、登録ありがとうございました.";
+    }
+}

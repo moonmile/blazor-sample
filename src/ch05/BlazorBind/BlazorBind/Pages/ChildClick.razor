@@ -1,0 +1,17 @@
+﻿@page "/childclick"
+
+<h3>子コンポーネントのイベントを受け取る</h3>
+
+
+<BlazorBind.Components.BmiCalc OnResultChanged="@ChangeResult" />
+<div>
+    BMI 結果: @Bmi
+</div>
+
+@code {
+    public double Bmi { get; set; }
+    private void ChangeResult(double result)
+    {
+        this.Bmi = result;
+    }
+}

@@ -1,0 +1,36 @@
+﻿@page "/mouse"
+
+<h3>マウスのクリックを取得</h3>
+
+<svg width="200" height="200">
+    <rect width="200" height="200" fill="orange"
+          @onmousemove="OnMouseMove"
+          @onclick="OnClick"
+          >
+    </rect>
+</svg>
+
+<div>
+    X座標: @x  Y座標: @y 
+</div>
+<div>
+    クリック数: @count
+</div>
+
+
+@code {
+    private double x { get; set; }
+    private double y { get; set; }
+    private int count { get; set; } = 0;
+
+    private void OnMouseMove(MouseEventArgs e)
+    {
+        x = e.ClientX;
+        y = e.ClientY;
+    }
+    private void OnClick()
+    {
+        count++;
+    }
+
+}

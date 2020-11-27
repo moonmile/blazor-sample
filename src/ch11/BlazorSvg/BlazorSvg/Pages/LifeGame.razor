@@ -1,0 +1,115 @@
+﻿@page "/lifegame"
+<h3>ライフゲーム</h3>
+<svg width="500" height="500">
+    @for (int y = 0; y < wy; y++)
+    {
+        for (int x = 0; x < wx; x++)
+        {
+            int xx = x;
+            int yy = y;
+            <rect x="@(xx*10)" y="@(yy*10)" width="8" height="8"
+                  fill="@( cells[xx,yy] ? "orange": "lightgray")"
+                  @onclick="e => onClick(e,xx,yy)" />
+        }
+    }
+</svg>
+
+<button class="btn btn-primary" @onclick="clickStart">開始</button>
+<button class="btn btn-secondary" @onclick="clickStop">停止</button>
+
+
+
+@code {
+    private const int wx = 50;
+    private const int wy = 50;
+    private bool[,] cells { get; set; } = new bool[wx, wy];
+    private bool[,] sub = new bool[wx, wy];
+    private Task _task;
+    private bool _flag;
+
+    private void onClick(MouseEventArgs e, int x, int y)
+    {
+        Console.WriteLine($"click {x},{y} ");
+        cells[x, y] = !cells[x, y];
+    }
+
+    private void clickStart()
+    {
+        // step();
+        _flag = true;
+        _task = new Task(async () =>
+        {
+            while (_flag)
+            {
+                Console.WriteLine("step ");
+                step();
+
+                await Task.Delay(100);
+            }
+        });
+        _task.Start();
+    }
+    private void clickStop()
+    {
+        _flag = false;
+    }
+
+    private void step()
+    {
+        for (int y = 0; y < wy; y++)
+        {
+            for (int x = 0; x < wx; x++)
+            {
+                sub[x, y] = cells[x, y];
+                if (cells[x, y])
+                {
+                    // 生きているセル
+                    int be = countBeCell(x, y);
+                    if (be == 2 || be == 3) sub[x, y] = true;
+                    if (be <= 1) sub[x, y] = false;
+                    if (be >= 4) sub[x, y] = false;
+
+                }
+                else
+                {
+                    // 死んでいるセル
+                    if (countBeCell(x, y) == 3) sub[x, y] = true;
+
+                }
+            }
+        }
+        for (int y = 0; y < wy; y++)
+        {
+            for (int x = 0; x < wx; x++)
+            {
+                cells[x, y] = sub[x, y];
+            }
+        }
+        this.StateHasChanged();
+    }
+    /// <summary>
+    /// 周辺の生きているセルをカウント
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    int countBeCell(int x, int y)
+    {
+        int n = 0;
+        if (isCell(x - 1, y - 1)) n++;
+        if (isCell(x, y - 1)) n++;
+        if (isCell(x + 1, y - 1)) n++;
+        if (isCell(x - 1, y)) n++;
+        if (isCell(x + 1, y)) n++;
+        if (isCell(x - 1, y + 1)) n++;
+        if (isCell(x, y + 1)) n++;
+        if (isCell(x + 1, y + 1)) n++;
+        return n;
+    }
+    bool isCell(int x, int y)
+    {
+        if (x < 0 || x >= wx) return false;
+        if (y < 0 || y >= wy) return false;
+        return cells[x, y];
+    }
+}

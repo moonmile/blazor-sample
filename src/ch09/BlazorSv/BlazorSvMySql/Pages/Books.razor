@@ -1,0 +1,114 @@
+﻿@page "/books"
+
+<h3>Books for MySQL</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>タイトル</td>
+            <td>著者名</td>
+            <td>価格</td>
+            <td>出版社</td>
+        </tr>
+    </thead>
+    @foreach (var it in books)
+    {
+        <tr @onclick="e => onSelected(it)" style="@(it == book ? "background:orange" : "")">
+            <td>@it.Title</td>
+            <td>@it.Author</td>
+            <td>@it.Price</td>
+            <td>@it.Publisher</td>
+        </tr>
+    }
+</table>
+
+<div class="form-group" style="margin-top:20px;">
+    <label for="searchTitle">タイトルの絞り込み</label>
+    <input type="text" id="searchTitle" @bind="searchText" @onkeypress="onKeyPress" @bind:event="oninput" class="form-control" />
+</div>
+
+<div>
+    <div style="margin-top:20px; margin-bottom:20px;">
+        <button class="btn btn-primary" @onclick="onCreate">新規作成</button>
+    </div>
+
+    <div class="form-group">
+        <label for="title">タイトル</label>
+        <input type="text" id="title" @bind="book.Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="author">著者名</label>
+        <input type="text" id="author" @bind="book.Author" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="price">価格</label>
+        <input type="number" id="price" @bind="book.Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="publisher">出版社名</label>
+        <input type="text" id="publisher" @bind="book.Publisher" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary" @onclick="onSubmit">登録</button>
+    <div style="margin-top:20px">
+        @Message
+    </div>
+</div>
+
+
+
+@code {
+
+    private BlazorSvMySql.Models.blazordbContext ent;
+    private List<Models.Books> books { get; set; }
+    private Models.Books book { get; set; } = new Models.Books();
+    private string Message { get; set; }
+    private string searchText { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.ent = new Models.blazordbContext();
+        this.books = ent.Books.ToList();
+    }
+
+    /// <summary>
+    /// 新規作成
+    /// </summary>
+    private void onCreate()
+    {
+        this.book = new Models.Books();
+    }
+    /// <summary>
+    /// データ登録
+    /// </summary>
+    private void onSubmit()
+    {
+        if (book.Id == 0)
+        {
+            ent.Add(book);
+        }
+        ent.SaveChanges();
+        Message = "登録しました";
+    }
+    /// <summary>
+    /// 書籍を選択する
+    /// </summary>
+    /// <param name="b"></param>
+    private void onSelected(Models.Books b)
+    {
+        this.book = b;
+    }
+
+    /// <summary>
+    /// 絞り込み検索
+    /// </summary>
+    /// <param name="b"></param>
+    private void onKeyPress(KeyboardEventArgs e)
+    {
+        System.Diagnostics.Debug.WriteLine("code " + e.Code);
+        if (e.Code == "Enter")
+        {
+            this.books = ent.Books.Where(t => t.Title.Contains(searchText)).ToList();
+        }
+    }
+}

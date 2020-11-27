@@ -1,0 +1,25 @@
+﻿@page "/key"
+<h3>キー入力のイベントを取得</h3>
+
+<table class="table">
+    <tr>
+        <td>キー入力</td>
+        <td>
+            <input type="text" @bind="Text" class="form-control"
+                   @onkeypress="OnKeyPress" />
+        </td>
+    </tr>
+</table>
+
+<div style="font-size:32pt">
+    @keycode
+</div>
+
+@code {
+    private string Text { get; set; }
+    private string keycode { get; set; }
+    private void OnKeyPress(KeyboardEventArgs e )
+    {
+        keycode = $"{e.Code} : {e.Key}";
+    }
+}

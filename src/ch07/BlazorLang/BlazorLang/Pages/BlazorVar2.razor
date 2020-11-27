@@ -1,0 +1,22 @@
+﻿@page "/var2"
+
+<h3>変数の明示的な書き方</h3>
+
+<div>
+    名前は @(name) です。
+</div>
+<div>
+    年齢は @($"{age:000} 歳") です。
+</div>
+<div>
+    10年前は @(age - 10) 歳でした。
+</div>
+<div>
+    今日は @DateTime.Today.ToString("yyyy年MM月dd日") です。
+</div>
+
+@code {
+
+    private string name = "masuda tomoaki";
+    private int age = 52;
+}

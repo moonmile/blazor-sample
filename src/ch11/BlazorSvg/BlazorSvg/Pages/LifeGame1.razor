@@ -1,0 +1,12 @@
+﻿@page "/lifegame1"
+<h3>ライフゲーム</h3>
+<svg width="500" height="500">
+    @for (int y = 0; y < 10; y++)
+    {
+        for (int x = 0; x < 10; x++)
+        {
+            <rect x="@(x*10)" y="@(y*10)" width="8" height="8"
+                  fill="lightgray" />
+        }
+    }
+</svg>

@@ -1,0 +1,70 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorBmi</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="simple">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> シンプルな表示
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="bmi">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> クラスを使った例
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="param">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> パラメータ指定
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="copylight">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 子コンポーネント
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="copylightparam">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 
+                <span style="white-space: nowrap">パラメータ付きコンポーネント</span>
+            </NavLink>
+        </li>
+
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="bmilist">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> リスト表示
+            </NavLink>
+        </li>
+
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="bmiattr">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 属性指定
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="bmicalc">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 計算する
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

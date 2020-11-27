@@ -1,0 +1,32 @@
+﻿@page "/bminame"
+@page "/bminame/{text}"
+
+<h3>Bmi by name</h3>
+
+<table>
+    <tr><td>name: </td><td>@Text</td></tr>
+    <tr><td>hight: </td><td>@bmi.Height</td></tr>
+    <tr><td>weight: </td><td>@bmi.Weight</td></tr>
+</table>
+<BlazorBmi.Components.CopyrightName Year="2021" Name="TOMOAKI MASUDA" />
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+    // 変数は、そのまま HTML 側で参照できる
+    private BmiItem bmi = new BmiItem()
+    {
+        Name = "anonymous",
+        Height = 163.0,
+        Weight = 61.0,
+    };
+
+    /// <summary>
+    /// パラメータを初期化する
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        this.bmi.Name = string.IsNullOrEmpty(Text) ? "匿名" : Text;
+    }
+}

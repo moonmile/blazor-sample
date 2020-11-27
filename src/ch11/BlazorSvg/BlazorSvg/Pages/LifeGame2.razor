@@ -1,0 +1,33 @@
+﻿@page "/lifegame2"
+<h3>ライフゲーム</h3>
+<svg width="100" height="100">
+    @for (int y = 0; y < wx; y++)
+    {
+        for (int x = 0; x < wy; x++)
+        {
+            <rect x="@(x*10)" y="@(y*10)" width="8" height="8"
+                  fill="@( cells[x,y] ? "orange": "lightgray")" />
+        }
+    }
+</svg>
+<button class="btn btn-primary" @onclick="clickChange">変更</button>
+
+@code {
+    private const int wx = 10;
+    private const int wy = 10;
+    private bool[,] cells { get; set; } = new bool[wx, wy];
+
+    // 色をランダムに変更
+    private void clickChange()
+    {
+        var rnd = new Random();
+        for ( int y = 0; y<wy; y++ )
+        {
+            for ( int x = 0; x<wx; x++ )
+            {
+                // ランダムに変更する
+                this.cells[x,y] = rnd.Next(2) == 0;
+            }
+        }
+    }
+}

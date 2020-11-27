@@ -1,0 +1,10 @@
+﻿<div style="background-color:orange">
+    <h2>Child Component</h2>
+    <p>Year: @Year</p>
+</div>
+@code {
+    [Parameter]
+    public double Year { get; set; }
+    [Parameter]
+    public EventCallback<double> YearChanged { get; set; }
+}

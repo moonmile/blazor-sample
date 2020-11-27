@@ -1,0 +1,42 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorLang</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="var">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 変数の表示
+            </NavLink>
+            <NavLink class="nav-link" href="var2">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 変数の明示的な表示
+            </NavLink>
+            <NavLink class="nav-link" href="code">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> コードブロックの利用
+            </NavLink>
+            <NavLink class="nav-link" href="if">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 制御文
+            </NavLink>
+            <NavLink class="nav-link" href="for">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 繰り返し文
+            </NavLink>
+            <NavLink class="nav-link" href="comment">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> コメント
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

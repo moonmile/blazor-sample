@@ -1,0 +1,24 @@
+﻿<div style="background-color:orange">
+    <h2>子コンポーネントで計算</h2>
+    <div>
+        身長: <input type="number" @bind="Height" /> cm
+    </div>
+    <div>
+        体重: <input type="number" @bind="Weight" /> kg
+    </div>
+    <button class="btn btn-primary" @onclick="clickCalc">計算する</button>
+</div>
+
+
+@code {
+    private double Weight { get; set; } = 60.0;
+    private double Height { get; set; } = 160.0;
+
+    private async void clickCalc()
+    {
+        var result = Weight / ((Height / 100) * (Height / 100));
+        await OnResultChanged.InvokeAsync(result);
+    }
+    [Parameter]
+    public EventCallback<double> OnResultChanged { get; set; }
+}

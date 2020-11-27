@@ -1,0 +1,20 @@
+﻿@page "/ParentComponent"
+
+<h1>Parent Component</h1>
+
+<p>ParentYear: @Year</p>
+
+<BlazorBind.Components.ChildComponent @bind-Year="Year" />
+
+<button class="btn btn-primary" @onclick="ChangeTheYear">
+    Change Year to 1986
+</button>
+
+@code {
+    public double Year { get; set; } = 1978;
+
+    private void ChangeTheYear()
+    {
+        Year = 1986;
+    }
+}

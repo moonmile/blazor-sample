@@ -1,0 +1,31 @@
+﻿<div style="background-color:orange">
+    <h2>子コンポーネント</h2>
+    <div>
+        Hight: @Height cm, Weigth: @Weight kg.
+    </div>
+    <div>
+        BMI is @result .
+    </div>
+</div>
+
+
+@code {
+    public double Height { get; set; } = 160.0;
+    private double result { get; set; }
+    private double _Weight = 60.0;
+    // パラメーターで Weight が変更されたときに、
+    // result を再計算する
+    [Parameter]
+    public double Weight
+    {
+        get => _Weight;
+        set
+        {
+            _Weight = value;
+            this.result = Weight / ((Height / 100) * (Height / 100));
+        }
+    }
+    // パラメータの変更を受け付ける時に必須. MVVM の twoway と同じ
+    [Parameter]
+    public EventCallback<double> WeightChanged { get; set; }
+}
